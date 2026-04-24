@@ -6,6 +6,7 @@ import net.awakaxis.discordchatbridge.discord.listeners.MessageForwarderListener
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.DisplayInfo;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -36,10 +37,12 @@ public class DCBNeoForge {
         CONFIG_SPEC = pair.getRight();
     }
 
-    public DCBNeoForge(IEventBus eventBus, ModContainer container) {
+    public DCBNeoForge(IEventBus eventBus, ModContainer container, Dist dist) {
 
         container.registerConfig(ModConfig.Type.COMMON, CONFIG_SPEC);
-        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+        if (!dist.equals(Dist.DEDICATED_SERVER)) {
+            container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+        }
 
         DiscordChatBridge.init();
 
