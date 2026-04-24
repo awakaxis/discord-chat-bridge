@@ -8,6 +8,7 @@ import java.util.List;
 public class NeoForgeConfig {
 
     public final ModConfigSpec.ConfigValue<String> TOKEN;
+    public final ModConfigSpec.ConfigValue<List<? extends Long>> LISTEN_CHANNELS;
     public final ModConfigSpec.ConfigValue<List<? extends String>> CHAT_HOOKS;
     public final ModConfigSpec.ConfigValue<List<? extends String>> DEATH_HOOKS;
     public final ModConfigSpec.ConfigValue<List<? extends String>> COMMAND_HOOKS;
@@ -19,6 +20,10 @@ public class NeoForgeConfig {
                 .worldRestart()
                 .comment("Bot token to bind to for listening to discord messages.")
                 .define("token", () -> "TOKEN", (obj) -> true);
+        this.LISTEN_CHANNELS = BUILDER
+                .worldRestart()
+                .comment("Channels to relay messages from.")
+                .defineListAllowEmpty("listenChannels", new ArrayList<>(), () -> 0L, (obj) -> true);
         this.CHAT_HOOKS = BUILDER
                 .comment("Webhooks the bot will send chat messages through.")
                 .defineListAllowEmpty("chatHooks", new ArrayList<>(), () -> "", (obj) -> true);
