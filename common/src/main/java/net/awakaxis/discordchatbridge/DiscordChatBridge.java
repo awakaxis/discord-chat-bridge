@@ -3,6 +3,7 @@ package net.awakaxis.discordchatbridge;
 import net.awakaxis.discordchatbridge.discord.listeners.MessageForwarderListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +32,11 @@ public class DiscordChatBridge {
                 throw new RuntimeException("Exception in JDA shutdown");
             }
         }
-        BOT = JDABuilder.create(token, EnumSet.allOf(GatewayIntent.class))
-                .addEventListeners(new MessageForwarderListener()).build();
+        try {
+            BOT = JDABuilder.create(token, EnumSet.allOf(GatewayIntent.class))
+                    .addEventListeners(new MessageForwarderListener()).build();
+        } catch (final InvalidTokenException invalidTokenException) {
+            Constants.LOGGER.warn("!!!!! TOKEN IS INVALID !!!!!");
+        }
     }
 }
