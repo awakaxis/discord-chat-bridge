@@ -1,6 +1,7 @@
 plugins {
     id 'multiloader-loader'
     id 'net.neoforged.moddev'
+    id 'com.gradleup.shadow' version '8.3.6'
 }
 
 neoForge {
@@ -41,13 +42,49 @@ neoForge {
     }
 }
 
+configurations {
+    shade
+    implementation.extendsFrom shade
+}
+
 dependencies {
-    implementation("net.dv8tion:JDA:6.4.1") {
+    shade("net.dv8tion:JDA:6.4.1") {
         exclude group: "org.slf4j", module: "slf4j-api"
+        exclude group: "com.google.code.findbugs", module: "jsr305"
+        exclude group: "com.google.errorprone", module: "error_prone_annotations"
+        exclude group: "com.google.code.gson", module: "gson"
     }
-    implementation("club.minnced:discord-webhooks:0.8.4")
+
+    shade("club.minnced:discord-webhooks:0.8.4") {
+        exclude group: "org.slf4j", module: "slf4j-api"
+        exclude group: "com.google.code.findbugs", module: "jsr305"
+        exclude group: "com.google.errorprone", module: "error_prone_annotations"
+        exclude group: "com.google.code.gson", module: "gson"
+    }
+
     additionalRuntimeClasspath("net.dv8tion:JDA:6.4.1")
     additionalRuntimeClasspath("club.minnced:discord-webhooks:0.8.4")
+}
+
+shadowJar {
+    archiveClassifier.set("")
+    configurations = [project.configurations.shade]
+
+    relocate "net.dv8tion", "${mod_id}.shadow.net.dv8tion"
+    relocate "club.minnced", "${mod_id}.shadow.club.minnced"
+    relocate "okhttp3", "${mod_id}.shadow.okhttp3"
+    relocate "okio", "${mod_id}.shadow.okio"
+    relocate "com.fasterxml.jackson", "${mod_id}.shadow.com.fasterxml.jackson"
+    relocate "org.apache.commons.collections4", "${mod_id}.shadow.org.apache.commons.collections4"
+    relocate "gnu.trove", "${mod_id}.shadow.gnu.trove"
+    relocate "com.sun.jna", "${mod_id}.shadow.com.sun.jna"
+    relocate "kotlin", "${mod_id}.shadow.kotlin"
+
+    mergeServiceFiles()
+}
+
+tasks.build {
+    dependsOn shadowJar
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
