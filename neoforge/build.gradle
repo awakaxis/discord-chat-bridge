@@ -79,6 +79,7 @@ shadowJar {
     relocate "gnu.trove", "${mod_id}.shadow.gnu.trove"
     relocate "com.sun.jna", "${mod_id}.shadow.com.sun.jna"
     relocate "kotlin", "${mod_id}.shadow.kotlin"
+    relocate "com.google.protobuf", "${mod_id}.shadow.com.google.protobuf"
 
     mergeServiceFiles()
 }
