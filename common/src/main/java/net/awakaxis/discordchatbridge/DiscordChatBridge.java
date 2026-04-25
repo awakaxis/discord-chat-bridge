@@ -27,6 +27,7 @@ public class DiscordChatBridge {
     }
 
     public static void initBot(String token) {
+        if (token.isEmpty()) {Constants.LOGGER.info("No token, returning."); return;}
         if (BOT != null) {
             BOT.shutdown();
             try {
