@@ -49,6 +49,9 @@ public class DCBNeoForge {
         NeoForge.EVENT_BUS.addListener(ServerStartedEvent.class, (serverStartedEvent -> {
             MessageForwarderListener.setServer(serverStartedEvent.getServer());
             DiscordChatBridge.initBot(CONFIG.TOKEN.get());
+            CONFIG.SERVER_LIFECYCLE_HOOKS.get().forEach((url) -> {
+                WebhookHelper.sendServerMessage("**Server started.**", url);
+            });
         }));
 
         NeoForge.EVENT_BUS.addListener(ServerChatEvent.class, (serverChatEvent -> {

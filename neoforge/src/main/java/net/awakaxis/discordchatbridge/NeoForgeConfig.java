@@ -14,6 +14,7 @@ public class NeoForgeConfig {
     public final ModConfigSpec.ConfigValue<List<? extends String>> COMMAND_HOOKS;
     public final ModConfigSpec.ConfigValue<List<? extends String>> ADVANCEMENT_HOOKS;
     public final ModConfigSpec.ConfigValue<List<? extends String>> CONNECTION_HOOKS;
+    public final ModConfigSpec.ConfigValue<List<? extends String>> SERVER_LIFECYCLE_HOOKS;
 
     public NeoForgeConfig(final ModConfigSpec.Builder BUILDER) {
         this.TOKEN = BUILDER
@@ -39,5 +40,8 @@ public class NeoForgeConfig {
         this.CONNECTION_HOOKS = BUILDER
                 .comment("Webhooks the bot will send server join / leave messages through.")
                 .defineListAllowEmpty("logInOutHooks", new ArrayList<>(), () -> "", (obj) -> true);
+        this.SERVER_LIFECYCLE_HOOKS = BUILDER
+                .comment("Webhooks the bot will notify of server startup / shutdown through.")
+                .defineListAllowEmpty("lifecycleHooks", new ArrayList<>(), () -> "", (obj) -> true);
     }
 }
