@@ -1,6 +1,7 @@
 package net.awakaxis.discordchatbridge.discord.listeners;
 
 import net.awakaxis.discordchatbridge.Constants;
+import net.awakaxis.discordchatbridge.platform.Services;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -17,11 +18,6 @@ import java.util.List;
 public class MessageForwarderListener extends ListenerAdapter {
 
     private static final int MAX_REPLY_LENGTH = 25;
-    private final List<? extends Long> LISTEN_CHANNELS;
-
-    public MessageForwarderListener(List<? extends Long> LISTEN_CHANNELS) {
-        this.LISTEN_CHANNELS = LISTEN_CHANNELS;
-    }
 
     @Nullable
     private static MinecraftServer server;
@@ -38,7 +34,7 @@ public class MessageForwarderListener extends ListenerAdapter {
         Constants.LOGGER.info("!{}! [{}] {}: {}\n", server == null ? "NO SERVER" : "SERVER", event.getChannel(), event.getAuthor(), event.getMessage().getContentDisplay());
         if (server != null) {
             if (event.getChannel() instanceof GuildChannel guildChannel) {
-                if (!LISTEN_CHANNELS.contains(guildChannel.getIdLong())) return;
+                if (!Services.PLATFORM.getListenChannels().contains(guildChannel.getIdLong())) return;
                 Member member = guildChannel.getGuild().getMember(event.getAuthor());
                 assert member != null;
                 int color = member.getColors().getPrimaryRaw();

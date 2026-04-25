@@ -26,7 +26,7 @@ public class DiscordChatBridge {
         Constants.LOGGER.info("Hello discord haters");
     }
 
-    public static void initBot(String token, List<? extends Long> listenChannels) {
+    public static void initBot(String token) {
         if (BOT != null) {
             BOT.shutdown();
             try {
@@ -40,7 +40,7 @@ public class DiscordChatBridge {
         }
         try {
             BOT = JDABuilder.create(token, EnumSet.of(GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS))
-                    .addEventListeners(new MessageForwarderListener(listenChannels))
+                    .addEventListeners(new MessageForwarderListener())
                     .build();
         } catch (final InvalidTokenException invalidTokenException) {
             Constants.LOGGER.warn("!!!!! TOKEN IS INVALID !!!!!");

@@ -1,5 +1,7 @@
 package net.awakaxis.discordchatbridge.platform.services;
 
+import java.util.List;
+
 public interface IPlatformHelper {
 
     /**
@@ -33,4 +35,6 @@ public interface IPlatformHelper {
 
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+    List<? extends  Long> getListenChannels();
 }
