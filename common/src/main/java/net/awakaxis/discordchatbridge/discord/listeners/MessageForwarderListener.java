@@ -31,7 +31,9 @@ public class MessageForwarderListener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.getAuthor().isSystem()) {
             return;
         }
-        Constants.LOGGER.info("!{}! [{}] {}: {}\n", server == null ? "NO SERVER" : "SERVER", event.getChannel(), event.getAuthor(), event.getMessage().getContentDisplay());
+        if (Services.PLATFORM.isDevelopmentEnvironment()) {
+            Constants.LOGGER.info("!{}! [{}] {}: {}\n", server == null ? "NO SERVER" : "SERVER", event.getChannel(), event.getAuthor(), event.getMessage().getContentDisplay());
+        }
         if (server != null) {
             if (event.getChannel() instanceof GuildChannel guildChannel) {
                 if (!Services.PLATFORM.getListenChannels().contains(guildChannel.getIdLong())) return;
