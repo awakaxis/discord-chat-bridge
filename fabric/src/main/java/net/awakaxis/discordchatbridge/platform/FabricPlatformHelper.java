@@ -2,6 +2,9 @@ package net.awakaxis.discordchatbridge.platform;
 
 import net.awakaxis.discordchatbridge.platform.services.IPlatformHelper;
 import net.fabricmc.loader.api.FabricLoader;
+import org.apache.commons.lang3.NotImplementedException;
+
+import java.util.List;
 
 public class FabricPlatformHelper implements IPlatformHelper {
 
@@ -20,5 +23,10 @@ public class FabricPlatformHelper implements IPlatformHelper {
     public boolean isDevelopmentEnvironment() {
 
         return FabricLoader.getInstance().isDevelopmentEnvironment();
+    }
+
+    @Override
+    public List<? extends Long> getListenChannels() {
+        throw new NotImplementedException("getListenChannels is unimplemented.");
     }
 }
