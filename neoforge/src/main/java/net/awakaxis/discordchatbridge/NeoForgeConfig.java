@@ -22,7 +22,6 @@ public class NeoForgeConfig {
                 .comment("Bot token to bind to for listening to discord messages.")
                 .define("token", () -> "TOKEN", (obj) -> true);
         this.LISTEN_CHANNELS = BUILDER
-                .worldRestart()
                 .comment("Channels to relay messages from.")
                 .defineListAllowEmpty("listenChannels", new ArrayList<>(), () -> 0L, (obj) -> true);
         this.CHAT_HOOKS = BUILDER
