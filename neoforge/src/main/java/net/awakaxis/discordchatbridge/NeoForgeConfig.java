@@ -8,6 +8,7 @@ import java.util.List;
 public class NeoForgeConfig {
 
     public final ModConfigSpec.ConfigValue<String> TOKEN;
+    public final ModConfigSpec.ConfigValue<String> SERVER_NAME;
     public final ModConfigSpec.ConfigValue<List<? extends Long>> LISTEN_CHANNELS;
     public final ModConfigSpec.ConfigValue<List<? extends String>> CHAT_HOOKS;
     public final ModConfigSpec.ConfigValue<List<? extends String>> DEATH_HOOKS;
@@ -21,6 +22,9 @@ public class NeoForgeConfig {
                 .worldRestart()
                 .comment("Bot token to bind to for listening to discord messages.")
                 .define("token", () -> "TOKEN", (obj) -> true);
+        this.SERVER_NAME = BUILDER
+                .comment("The identifier to be used to distinguish messages coming from this server from messages coming from other servers when one bot is being used for multiple servers at once.\nCan be empty to disable.")
+                .define("serverName", () -> "", (obj) -> true);
         this.LISTEN_CHANNELS = BUILDER
                 .comment("Channels to relay messages from.")
                 .defineListAllowEmpty("listenChannels", new ArrayList<>(), () -> 0L, (obj) -> true);

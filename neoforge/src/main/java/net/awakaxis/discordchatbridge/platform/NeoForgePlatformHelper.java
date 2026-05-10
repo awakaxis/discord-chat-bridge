@@ -31,4 +31,9 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     public List<? extends Long> getListenChannels() {
         return DCBNeoForge.CONFIG.LISTEN_CHANNELS.get();
     }
+
+    @Override
+    public String getServerName() {
+        return DCBNeoForge.CONFIG.SERVER_NAME.get();
+    }
 }

@@ -37,4 +37,6 @@ public interface IPlatformHelper {
     }
 
     List<? extends  Long> getListenChannels();
+
+    String getServerName();
 }
