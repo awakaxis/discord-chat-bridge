@@ -34,20 +34,24 @@ public class MessageForwarderListener extends ListenerAdapter {
     }
 
     private boolean handleCommandUsage(final String command, final Message message, final User user, final MessageChannel messageChannel) {
-        if (Objects.equals(command, "!playerlist") || Objects.equals(command, "!pl")) {
+        if (command.equals("!playerlist") || command.equals("!pl")) {
             if (server == null) {
-                message.reply("Server has not started!").queue();
+                message.reply("Server has not started!").mentionRepliedUser(false).queue();
                 return false;
             }
-            final PlayerList playerList = server.getPlayerList();
-            final StringBuilder stringBuilder = new StringBuilder();
-            playerList.getPlayers().forEach(serverPlayer -> stringBuilder.append(String.format("`%s`\n", serverPlayer.getName().getString())));
-            final MessageEmbed embed = new EmbedBuilder()
-                    .setAuthor("Online Players:")
+            PlayerList playerList = server.getPlayerList();
+            String serverName = Services.PLATFORM.getServerName();
+            String authorString = String.format("(%s/%s) Players Online", playerList.getPlayerCount(), playerList.getMaxPlayers());
+
+            StringBuilder players = new StringBuilder();
+            playerList.getPlayers().forEach(serverPlayer -> players.append(String.format("%s. %s\n", players.length() + 1, serverPlayer.getName().getString())));
+
+            MessageEmbed embed = new EmbedBuilder()
+                    .setAuthor(!serverName.isEmpty() ? String.format("%s (%s):", authorString, serverName) : authorString + ":")
                     .setThumbnail(WebhookHelper.SERVER_AVATAR)
-                    .setDescription(stringBuilder)
+                    .setDescription(playerList.getPlayerCount() == 0 ? "No players are currently online." : players)
                     .build();
-            message.replyEmbeds(embed).queue();
+            messageChannel.sendMessageEmbeds(embed).queue();
             return true;
         }
 
