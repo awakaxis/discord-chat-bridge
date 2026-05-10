@@ -32,7 +32,7 @@ public class MessageForwarderListener extends ListenerAdapter {
             return;
         }
         if (Services.PLATFORM.isDevelopmentEnvironment()) {
-            Constants.LOGGER.info("!{}! [{}] {}: {}\n", server == null ? "NO SERVER" : "SERVER", event.getChannel(), event.getAuthor(), event.getMessage().getContentDisplay());
+            Constants.LOGGER.debug("!{}! [{}] {}: {}\n", server == null ? "NO SERVER" : "SERVER", event.getChannel(), event.getAuthor(), message.getContentDisplay());
         }
         if (server != null) {
             if (event.getChannel() instanceof GuildChannel guildChannel) {
